@@ -1,34 +1,24 @@
 import ClienteRepository from '../repositories/ClienteRepository.js';
-import { Cliente } from '../@types/entities/Cliente.js';
-
 export default class ClienteService {
-    private clienteRepository: ClienteRepository;
-
     constructor() {
         this.clienteRepository = new ClienteRepository();
     }
-
-    async listarClientes(): Promise<Cliente[]> {
+    async listarClientes() {
         return this.clienteRepository.findAll();
     }
-
-    async buscarClientePorCpf(cpf: string): Promise<Cliente | null> {
+    async buscarClientePorCpf(cpf) {
         return this.clienteRepository.findByCpf(cpf);
     }
-
-    async criarCliente(data: Omit<Cliente, 'cpf'>): Promise<string> {
+    async criarCliente(data) {
         return this.clienteRepository.create(data);
     }
-
-    async atualizarCliente(cpf: string, data: Partial<Cliente>): Promise<boolean> {
+    async atualizarCliente(cpf, data) {
         return this.clienteRepository.update(cpf, data);
     }
-
-    async deletarCliente(cpf: string): Promise<boolean> {
+    async deletarCliente(cpf) {
         return this.clienteRepository.delete(cpf);
     }
-
-    async buscarClientesPorNome(nome: string): Promise<Cliente[]> {
+    async buscarClientesPorNome(nome) {
         return this.clienteRepository.findByNome(nome);
     }
 }

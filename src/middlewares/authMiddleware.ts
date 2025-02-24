@@ -13,13 +13,12 @@ export async function authMiddleware(
   if (!authHeader) {
     throw new AppError("Token requerido", 401);
   }
-
   const [_, token] = authHeader.split(" ");
 
   try {
-    const { sub } = jwt.verify(token, jwt_key);
-    request.idUser = sub as string;
-    request.userType = sub as string;
+    const { userType, idUser } = jwt.verify(token, jwt_key) as { userType: string; idUser: string };
+    request.idUser = idUser;
+    request.userType = userType;
 
     return next();
   } catch (error) {
