@@ -5,9 +5,7 @@ import { Agencia } from '../@types/entities/Agencia';
 export default class AgenciaRepository {
     private tableName = 'agencia';
 
-    async find(cidade?: string, page: number = 1, limit: number = 10): Promise<Agencia[]> {
-        const offset = (page - 1) * limit; // Calcula o deslocamento
-    
+    async find(cidade?: string): Promise<Agencia[]> {    
         let query = `SELECT * FROM ${this.tableName}`;
         let params: any[] = [];
     
@@ -15,9 +13,6 @@ export default class AgenciaRepository {
             query += ` WHERE cidade = ?`;
             params.push(cidade);
         }
-    
-        query += ` LIMIT ? OFFSET ?`;
-        params.push(limit, offset);
     
         const [rows] = await pool.query<RowDataPacket[]>(query, params);
         return rows as Agencia[];

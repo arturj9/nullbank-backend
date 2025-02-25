@@ -8,8 +8,8 @@ export default class AgenciaService {
         this.agenciaRepository = new AgenciaRepository();
     }
 
-    async listarAgencias(cidade?: string, page: number = 1, limit: number = 10): Promise<Agencia[]> {
-        return this.agenciaRepository.find(cidade, page, limit);
+    async listarAgencias(cidade?: string): Promise<Agencia[]> {
+        return this.agenciaRepository.find(cidade);
     }
 
     async buscarAgenciaPorId(id: number): Promise<Agencia | null> {

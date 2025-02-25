@@ -62,17 +62,10 @@ export default class AgenciaController {
     // Listar agências
     async list(request: Request): Promise<{ status: number; body: Agencia[] | { message: string }}> {
         try {
-            const { cidade, page, limit } = request.query;
+            const { cidade } = request.query;
             
-            const pageNumber = page ? parseInt(page as string, 10) : 1;
-            const limitNumber = limit ? parseInt(limit as string, 10) : 10;
 
-            if (isNaN(pageNumber) || isNaN(limitNumber) || pageNumber < 1 || limitNumber < 1) {
-                throw new AppError("Parâmetros de paginação inválidos.", 400);
-
-            }
-
-            const agencias = await this.agenciaService.listarAgencias(cidade as string, pageNumber, limitNumber);
+            const agencias = await this.agenciaService.listarAgencias(cidade as string);
             return { status: 200, body: agencias };
         } catch (error) {
             throw new AppError("Erro ao listar agências.");

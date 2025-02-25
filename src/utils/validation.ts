@@ -19,6 +19,10 @@ export const updateClienteSchema = z.object({
 });
 
 // Esquema para Funcionario
+// Salário mínimo da categoria
+const SALARIO_BASE = 2286.00;
+
+// Esquema para Funcionario
 export const createFuncionarioSchema = z.object({
     nome_completo: z.string().min(1, 'Nome completo é obrigatório'),
     senha: z.string().min(6, 'Senha deve ter pelo menos 6 caracteres'),
@@ -27,7 +31,9 @@ export const createFuncionarioSchema = z.object({
     cargo: z.enum(['gerente', 'atendente', 'caixa']),
     genero: z.enum(['masculino', 'feminino', 'não-binário']),
     data_nascimento: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Data de nascimento deve estar no formato YYYY-MM-DD'),
-    salario: z.number().positive('Salário deve ser um número positivo'),
+    salario: z.number()
+        .positive('Salário deve ser um número positivo')
+        .min(SALARIO_BASE, `O salário não pode ser menor que o salário-base da categoria (R$${SALARIO_BASE.toFixed(2)})`),
     num_ag: z.number().int().positive('Número da agência deve ser um número positivo'),
 });
 
@@ -39,7 +45,10 @@ export const updateFuncionarioSchema = z.object({
     cargo: z.enum(['gerente', 'atendente', 'caixa']).optional(),
     genero: z.enum(['masculino', 'feminino', 'não-binário']).optional(),
     data_nascimento: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Data de nascimento deve estar no formato YYYY-MM-DD').optional(),
-    salario: z.number().positive('Salário deve ser um número positivo').optional(),
+    salario: z.number()
+        .positive('Salário deve ser um número positivo')
+        .min(SALARIO_BASE, `O salário não pode ser menor que o salário-base da categoria (R$${SALARIO_BASE.toFixed(2)})`)
+        .optional(),
     num_ag: z.number().int().positive('Número da agência deve ser um número positivo').optional(),
 });
 
@@ -67,8 +76,25 @@ export const updateAgenciaSchema = z.object({
     cidade: z.string().min(1, 'Cidade é obrigatória').optional(),
 });
 
+// Esquema para dependente
+export const createDependenteSchema = z.object({
+    nome_completo: z.string().min(1, 'Nome completo é obrigatório'),
+    data_nascimento: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Data de nascimento deve estar no formato YYYY-MM-DD'),
+    funcionario_matricula: z.number().int().positive('Matrícula deve ser um número positivo'), // Deve bater com o banco
+    parentesco: z.enum(['filho(a)', 'cônjuge', 'genitor(a)'])
+});
+
+export const updateDependenteSchema = z.object({
+    nome_completo: z.string().min(1, 'Nome completo é obrigatório').optional(),
+    data_nascimento: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Data de nascimento deve estar no formato YYYY-MM-DD').optional(),
+    funcionario_matricula: z.number().int().positive('Matrícula deve ser um número positivo').optional(),
+    parentesco: z.enum(['filho(a)', 'cônjuge', 'genitor(a)']).optional()
+});
 
 // Tipos inferidos dos esquemas
+export type DependenteCreate = z.infer<typeof createDependenteSchema>;
+export type DependenteUpdate = z.infer<typeof updateDependenteSchema>;
+
 export type AgenciaCreate = z.infer<typeof createAgenciaSchema>;
 export type AgenciaUpdate = z.infer<typeof updateAgenciaSchema>;
 
