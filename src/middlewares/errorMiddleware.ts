@@ -26,5 +26,4 @@ export async function errorMiddleware(
         status: "error",
         message: "Internal server error",
     });
-    return;
 }

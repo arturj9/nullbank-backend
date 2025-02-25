@@ -1,7 +1,7 @@
 import pool from '../config/db';
 import { RowDataPacket } from 'mysql2/promise';
 import { compareSync } from 'bcrypt';
-import jwt from "jsonwebtoken";
+import jwt from 'jsonwebtoken';
 import jwt_key from '../config/jwt';
 
 export default class AuthService {
@@ -19,27 +19,27 @@ export default class AuthService {
         if (rows.length === 0) return null;
 
         const cliente = rows[0];
-        const senhaValida = compareSync(password, cliente.senha);
+        const senhaValida = compareSync(password, cliente.senha); // Compara a senha fornecida com o hash armazenado
         if (!senhaValida) return null;
 
         return { tipo: 'cliente', id: cliente.cpf };
     }
 
     // Busca um funcionário pela matrícula
-    async findFuncionarioByMatricula(matricula: string, password: string): Promise<{ tipo: string; id: string } | null> {
+    async findFuncionarioByMatricula(matricula: string, password: string): Promise<{ tipo: string; id: string, nome_completo:string } | null> {
         const [rows] = await pool.query<RowDataPacket[]>(
-            'SELECT matricula, senha, cargo FROM funcionario WHERE matricula = ?',
+            'SELECT nome_completo, matricula, senha, cargo FROM funcionario WHERE matricula = ?',
             [matricula]
         );
         if (rows.length === 0) return null;
 
         const funcionario = rows[0];
-        const senhaValida = compareSync(password, funcionario.senha);
+        const senhaValida = compareSync(password, funcionario.senha); // Compara a senha fornecida com o hash armazenado
         if (!senhaValida) return null;
 
         // Define o tipo de funcionário
         const tipo = funcionario.cargo; // 'gerente', 'atendente', 'caixa'
-        return { tipo, id: funcionario.matricula };
+        return { tipo, id: funcionario.matricula, nome_completo:funcionario.nome_completo };
     }
 
     // Gera o JWT

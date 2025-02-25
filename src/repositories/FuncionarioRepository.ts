@@ -12,7 +12,7 @@ export default class FuncionarioRepository {
             `INSERT INTO ${this.tableName} SET ?`,
             [data]
         );
-        return this.findById(result.insertId);
+        return this.findById(result.insertId); // Retorna o funcionário sem a senha
     }
 
     // Atualizar um funcionário existente
@@ -24,18 +24,20 @@ export default class FuncionarioRepository {
         return result.affectedRows > 0;
     }
 
-    // Buscar funcionário por matrícula
-    async findById(matricula: number): Promise<Funcionario| null> {
+    // Buscar funcionário por matrícula (sem senha)
+    async findById(matricula: number): Promise<Funcionario | null> {
         const [rows] = await pool.query<RowDataPacket[]>(
-            `SELECT * FROM ${this.tableName} WHERE matricula = ?`,
+            `SELECT matricula, nome_completo, endereco, cidade, cargo, genero, data_nascimento, salario, num_ag FROM ${this.tableName} WHERE matricula = ?`,
             [matricula]
         );
         return rows[0] as Funcionario || null;
     }
 
-    // Listar todos os funcionários
+    // Listar todos os funcionários (sem senha)
     async findAll(): Promise<RowDataPacket[]> {
-        const [rows] = await pool.query<RowDataPacket[]>(`SELECT * FROM ${this.tableName}`);
+        const [rows] = await pool.query<RowDataPacket[]>(
+            `SELECT matricula, nome_completo, endereco, cidade, cargo, genero, data_nascimento, salario, num_ag FROM ${this.tableName}`
+        );
         return rows;
     }
 

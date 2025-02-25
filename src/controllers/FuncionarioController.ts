@@ -2,6 +2,7 @@ import { Request } from 'express';
 import FuncionarioService from '../services/FuncionarioService.js';
 import { createFuncionarioSchema, updateFuncionarioSchema, FuncionarioCreate, FuncionarioUpdate } from '../utils/validation.js';
 import { Funcionario } from '../@types/entities/Funcionario.js';
+import { AppError } from '../errors/AppError.js';
 
 export default class FuncionarioController {
     private funcionarioService: FuncionarioService;
@@ -19,7 +20,7 @@ export default class FuncionarioController {
             const result= await this.funcionarioService.criarFuncionario(data);
             return { status: 201, body: result };
         } catch (error) {
-            return { status: 500, body: { message: 'Erro ao criar funcionário' } };
+            throw new AppError('Erro ao criar funcionário', 500);
         }
     }
 
@@ -34,10 +35,10 @@ export default class FuncionarioController {
             if (sucesso) {
                 return { status: 200, body: { message: 'Funcionário atualizado com sucesso' } };
             } else {
-                return { status: 404, body: { message: 'Funcionário não encontrado' } };
+                throw new AppError('Funcionário não encontrado', 404);
             }
         } catch (error) {
-            return { status: 500, body: { message: 'Erro ao atualizar funcionário' } };
+            throw new AppError('Erro ao atualizar funcionário', 500);
         }
     }
 
@@ -49,10 +50,10 @@ export default class FuncionarioController {
             if (funcionario) {
                 return { status: 200, body: funcionario };
             } else {
-                return { status: 404, body: { message: 'Funcionário não encontrado' } };
+               throw new AppError('Funcionário não encontrado', 404);
             }
         } catch (error) {
-            return { status: 500, body: { message: 'Erro ao buscar funcionário' } };
+            throw new AppError('Erro ao buscar funcionário', 500);
         }
     }
 
@@ -62,7 +63,7 @@ export default class FuncionarioController {
             const funcionarios = await this.funcionarioService.listarFuncionarios();
             return { status: 200, body: funcionarios };
         } catch (error) {
-            return { status: 500, body: { message: 'Erro ao listar funcionários' } };
+            throw new AppError('Erro ao listar funcionários', 500);
         }
     }
 
@@ -74,10 +75,10 @@ export default class FuncionarioController {
             if (sucesso) {
                 return { status: 200, body: { message: 'Funcionário deletado com sucesso' } };
             } else {
-                return { status: 404, body: { message: 'Funcionário não encontrado' } };
+                throw new AppError('Funcionário não encontrado', 404);
             }
         } catch (error) {
-            return { status: 500, body: { message: 'Erro ao deletar funcionário' } };
+            throw new AppError('Erro ao deletar funcionário', 500);
         }
     }
 }

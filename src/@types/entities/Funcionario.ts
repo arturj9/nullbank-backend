@@ -1,7 +1,6 @@
 export interface Funcionario {
     matricula: number; // Matrícula do funcionário (chave primária)
     nome_completo: string; // Nome completo do funcionário
-    senha: string; // Senha do funcionário
     endereco: string; // Endereço do funcionário
     cidade: string; // Cidade do funcionário
     cargo: 'gerente' | 'atendente' | 'caixa'; // Cargo do funcionário
