@@ -1,5 +1,6 @@
-import ClienteRepository from '../repositories/ClienteRepository.js';
-import { Cliente } from '../@types/entities/Cliente.js';
+import ClienteRepository from '../repositories/ClienteRepository';
+import { Cliente } from '../@types/entities/Cliente';
+import { ClienteCreate, ClienteUpdate } from '../utils/validation';
 
 export default class ClienteService {
     private clienteRepository: ClienteRepository;
@@ -8,27 +9,23 @@ export default class ClienteService {
         this.clienteRepository = new ClienteRepository();
     }
 
-    async listarClientes(): Promise<Cliente[]> {
-        return this.clienteRepository.findAll();
+    async criarCliente(cliente: ClienteCreate): Promise<ClienteCreate> {
+        return this.clienteRepository.create(cliente);
     }
 
     async buscarClientePorCpf(cpf: string): Promise<Cliente | null> {
         return this.clienteRepository.findByCpf(cpf);
     }
 
-    async criarCliente(data: Omit<Cliente, 'cpf'>): Promise<string> {
-        return this.clienteRepository.create(data);
-    }
-
-    async atualizarCliente(cpf: string, data: Partial<Cliente>): Promise<boolean> {
-        return this.clienteRepository.update(cpf, data);
+    async atualizarCliente(cpf: string, cliente: Partial<ClienteUpdate>): Promise<boolean> {
+        return this.clienteRepository.update(cpf, cliente);
     }
 
     async deletarCliente(cpf: string): Promise<boolean> {
         return this.clienteRepository.delete(cpf);
     }
 
-    async buscarClientesPorNome(nome: string): Promise<Cliente[]> {
-        return this.clienteRepository.findByNome(nome);
+    async listarClientes(): Promise<Cliente[]> {
+        return this.clienteRepository.list();
     }
 }

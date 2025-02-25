@@ -8,6 +8,13 @@ export const createClienteSchema = z.object({
     orgao_emissor: z.string().min(1, 'Órgão emissor é obrigatório'),
     uf_rg: z.string().length(2, 'UF do RG deve ter 2 caracteres'),
     data_nascimento: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Data de nascimento deve estar no formato YYYY-MM-DD'),
+    tipo_logradouro: z.string().min(1, 'Tipo de logradouro é obrigatório'),
+    nome_logradouro: z.string().min(1, 'Nome do logradouro é obrigatório'),
+    numero: z.string().min(1, 'Número é obrigatório'),
+    bairro: z.string().min(1, 'Bairro é obrigatório'),
+    cep: z.string().length(8, 'CEP deve ter 8 caracteres'),
+    cidade: z.string().min(1, 'Cidade é obrigatória'),
+    estado: z.string().length(2, 'Estado deve ter 2 caracteres'),
 });
 
 export const updateClienteSchema = z.object({
@@ -16,6 +23,13 @@ export const updateClienteSchema = z.object({
     orgao_emissor: z.string().min(1, 'Órgão emissor é obrigatório').optional(),
     uf_rg: z.string().length(2, 'UF do RG deve ter 2 caracteres').optional(),
     data_nascimento: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Data de nascimento deve estar no formato YYYY-MM-DD').optional(),
+    tipo_logradouro: z.string().min(1, 'Tipo de logradouro é obrigatório').optional(),
+    nome_logradouro: z.string().min(1, 'Nome do logradouro é obrigatório').optional(),
+    numero: z.string().min(1, 'Número é obrigatório').optional(),
+    bairro: z.string().min(1, 'Bairro é obrigatório').optional(),
+    cep: z.string().length(8, 'CEP deve ter 8 caracteres').optional(),
+    cidade: z.string().min(1, 'Cidade é obrigatória').optional(),
+    estado: z.string().length(2, 'Estado deve ter 2 caracteres').optional(),
 });
 
 // Esquema para Funcionario

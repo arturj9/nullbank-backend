@@ -37,11 +37,17 @@ export default class AuthController {
         }
 
         // Verifica se é Cliente
-        // const cliente = await this.authService.findClienteByCpf(user, password);
-        // if (cliente) {
-        //     const token = this.authService.generateToken(cliente);
-        //     return { status: 200, body: { token } };
-        // }
+        const cliente = await this.authService.findClienteByCpf(user, password);
+        if (cliente) {
+            const user = {
+                id:cliente.id,
+                nome: cliente.nome_completo,
+                tipo: cliente.tipo,
+                cargo: ""
+            }
+            const token = this.authService.generateToken(cliente);
+            return { status: 200, body: { token, user } };
+        }
 
         // Se não encontrou nenhum usuário válido
         return { status: 401, body: { message: 'Credenciais inválidas' } };

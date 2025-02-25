@@ -11,9 +11,9 @@ export default class AuthService {
     }
 
     // Busca um cliente pelo CPF
-    async findClienteByCpf(cpf: string, password: string): Promise<{ tipo: string; id: string } | null> {
+    async findClienteByCpf(cpf: string, password: string): Promise<{ tipo: string; id: string, nome_completo:string } | null> {
         const [rows] = await pool.query<RowDataPacket[]>(
-            'SELECT cpf, senha FROM cliente WHERE cpf = ?',
+            'SELECT cpf, nome_completo, senha FROM cliente WHERE cpf = ?',
             [cpf]
         );
         if (rows.length === 0) return null;
@@ -22,7 +22,7 @@ export default class AuthService {
         const senhaValida = compareSync(password, cliente.senha); // Compara a senha fornecida com o hash armazenado
         if (!senhaValida) return null;
 
-        return { tipo: 'cliente', id: cliente.cpf };
+        return { tipo: 'cliente', id: cliente.cpf, nome_completo: cliente.nome_completo  };
     }
 
     // Busca um funcionário pela matrícula
