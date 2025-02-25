@@ -105,7 +105,22 @@ export const updateDependenteSchema = z.object({
     parentesco: z.enum(['filho(a)', 'cônjuge', 'genitor(a)']).optional()
 });
 
+// Esquema para EmailCliente
+export const createEmailClienteSchema = z.object({
+    email: z.string().email('E-mail inválido'),
+    cpf_cliente: z.string().length(11, 'CPF deve ter 11 caracteres'),
+    tipo: z.string().min(1, 'Tipo de e-mail é obrigatório'),
+});
+
+export const updateEmailClienteSchema = z.object({
+    email: z.string().email('E-mail inválido').optional(),
+    tipo: z.string().min(1, 'Tipo de e-mail é obrigatório').optional(),
+});
+
 // Tipos inferidos dos esquemas
+export type EmailClienteCreate = z.infer<typeof createEmailClienteSchema>;
+export type EmailClienteUpdate = z.infer<typeof updateEmailClienteSchema>;
+
 export type DependenteCreate = z.infer<typeof createDependenteSchema>;
 export type DependenteUpdate = z.infer<typeof updateDependenteSchema>;
 

@@ -4,6 +4,7 @@ import agenciaRoutes from './agenciaRoutes';
 import clienteRoutes from './clienteRoutes';
 import funcionarioRoutes from './funcionarioRoutes';
 import dependenteRoutes from './dependenteRoutes';
+import emailClienteRoutes from './emailClienteRoutes';
 import { authMiddleware } from '../middlewares/authMiddleware';
 
 
@@ -14,5 +15,6 @@ routes.use('/agencias', authMiddleware, agenciaRoutes);
 routes.use('/clientes', authMiddleware, clienteRoutes);
 routes.use('/funcionarios', funcionarioRoutes);
 routes.use('/dependentes', dependenteRoutes);
+routes.use('/email-cliente', emailClienteRoutes);
 
 export { routes };

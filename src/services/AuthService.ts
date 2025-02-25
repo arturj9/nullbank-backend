@@ -44,6 +44,6 @@ export default class AuthService {
 
     // Gera o JWT
     generateToken(user: { tipo: string; id: string }): string {
-        return jwt.sign({ userType: user.tipo, id: user.id }, jwt_key, { expiresIn: '1h' });
+        return jwt.sign({ userType: user.tipo, id: user.id }, jwt_key, { expiresIn: '1d' });
     }
 }
