@@ -117,7 +117,22 @@ export const updateEmailClienteSchema = z.object({
     tipo: z.string().min(1, 'Tipo de e-mail é obrigatório').optional(),
 });
 
+// Esquema para TelefoneCliente
+export const createTelefoneClienteSchema = z.object({
+    telefone: z.string().min(1, 'Número do telefone é obrigatório'),
+    cpf_cliente: z.string().length(11, 'CPF deve ter 11 caracteres'),
+    tipo: z.string().min(1, 'Tipo de telefone é obrigatório'),
+});
+
+export const updateTelefoneClienteSchema = z.object({
+    telefone: z.string().min(1, 'Número do telefone é obrigatório').optional(),
+    tipo: z.string().min(1, 'Tipo de telefone é obrigatório').optional(),
+});
+
 // Tipos inferidos dos esquemas
+export type TelefoneClienteCreate = z.infer<typeof createTelefoneClienteSchema>;
+export type TelefoneClienteUpdate = z.infer<typeof updateTelefoneClienteSchema>;
+
 export type EmailClienteCreate = z.infer<typeof createEmailClienteSchema>;
 export type EmailClienteUpdate = z.infer<typeof updateEmailClienteSchema>;
 
