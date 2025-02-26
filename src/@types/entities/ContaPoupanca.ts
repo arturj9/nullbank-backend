@@ -1,4 +1,5 @@
-export interface ContaEspecial {
-    conta_num_conta: number; // Número da conta (chave primária e estrangeira)
+import { Conta } from "./Conta";
+
+export interface ContaEspecial extends Conta{
     limite_credito: number; // Limite de crédito da conta especial
 }

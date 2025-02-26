@@ -6,6 +6,7 @@ import funcionarioRoutes from './funcionarioRoutes';
 import dependenteRoutes from './dependenteRoutes';
 import emailClienteRoutes from './emailClienteRoutes';
 import telefoneClienteRoutes from './telefoneClienteRoutes';
+import contaRoutes from './contaRoutes';
 import { authMiddleware } from '../middlewares/authMiddleware';
 
 
@@ -18,5 +19,6 @@ routes.use('/funcionarios', funcionarioRoutes);
 routes.use('/dependentes', dependenteRoutes);
 routes.use('/email-cliente', emailClienteRoutes);
 routes.use('/telefone-cliente', telefoneClienteRoutes);
+routes.use('/contas', contaRoutes);
 
 export { routes };

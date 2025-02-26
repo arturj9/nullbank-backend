@@ -1,4 +1,5 @@
-export interface ContaPoupanca {
-    conta_num_conta: number; // Número da conta (chave primária e estrangeira)
+import { Conta } from "./Conta";
+
+export interface ContaPoupanca extends Conta {
     taxa_juros: number; // Taxa de juros da poupança
 }

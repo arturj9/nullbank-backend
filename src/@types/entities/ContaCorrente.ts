@@ -1,4 +1,5 @@
-export interface ContaCorrente {
-    conta_num_conta: number; // Número da conta (chave primária e estrangeira)
+import { Conta } from "./Conta";
+
+export interface ContaCorrente extends Conta {
     data_aniversario_contrato: Date; // Data de aniversário do contrato
 }

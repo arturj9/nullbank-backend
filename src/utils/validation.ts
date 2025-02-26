@@ -129,7 +129,53 @@ export const updateTelefoneClienteSchema = z.object({
     tipo: z.string().min(1, 'Tipo de telefone é obrigatório').optional(),
 });
 
+// Esquema base para Conta
+export const createContaSchema = z.object({
+    saldo: z.number().min(0, 'Saldo não pode ser negativo'),
+    senha: z.string().min(6, 'Senha deve ter pelo menos 6 caracteres'),
+    num_ag: z.number().int().positive('Número da agência deve ser um número positivo'),
+    gerente_matricula: z.number().int().positive('Matrícula do gerente deve ser um número positivo'),
+});
+
+// Esquema para ContaCorrente
+export const createContaCorrenteSchema = createContaSchema.extend({
+    tipo_conta: z.literal('conta-corrente'),
+    data_aniversario_contrato: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Data deve estar no formato YYYY-MM-DD'),
+});
+
+// Esquema para ContaPoupanca
+export const createContaPoupancaSchema = createContaSchema.extend({
+    tipo_conta: z.literal('poupança'),
+    taxa_juros: z.number().min(0, 'Taxa de juros não pode ser negativa'),
+});
+
+// Esquema para ContaEspecial
+export const createContaEspecialSchema = createContaSchema.extend({
+    tipo_conta: z.literal('conta especial'),
+    limite_credito: z.number().min(0, 'Limite de crédito não pode ser negativo'),
+});
+
+// Tipo unificado para criação de conta
+export const createContaUnificadaSchema = z.union([
+    createContaCorrenteSchema,
+    createContaPoupancaSchema,
+    createContaEspecialSchema,
+]);
+
+// Esquema para ContaHasCliente
+export const createContaHasClienteSchema = z.object({
+    num_conta: z.number().int().positive('Número da conta deve ser um número positivo'),
+    cpf_cliente: z.string().length(11, 'CPF deve ter 11 caracteres'),
+});
+
 // Tipos inferidos dos esquemas
+export type ContaHasClienteCreate = z.infer<typeof createContaHasClienteSchema>;
+export type ContaCreate = z.infer<typeof createContaSchema>;
+export type ContaCorrenteCreate = z.infer<typeof createContaCorrenteSchema>;
+export type ContaPoupancaCreate = z.infer<typeof createContaPoupancaSchema>;
+export type ContaEspecialCreate = z.infer<typeof createContaEspecialSchema>;
+export type ContaUnificadaCreate = z.infer<typeof createContaUnificadaSchema>;
+
 export type TelefoneClienteCreate = z.infer<typeof createTelefoneClienteSchema>;
 export type TelefoneClienteUpdate = z.infer<typeof updateTelefoneClienteSchema>;
 
