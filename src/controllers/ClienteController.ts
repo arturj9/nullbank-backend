@@ -11,8 +11,8 @@ export default class ClienteController {
     }
 
     async criarCliente(request: Request): Promise<{ status: number; body: ClienteCreate | { message: string } }> {
+        const validationData = createClienteSchema.parse(request.body);
         try {
-            const validationData = createClienteSchema.parse(request.body);
             const cliente = await this.clienteService.criarCliente(validationData as ClienteCreate);
             return { status: 201, body: cliente };
         } catch (error) {
@@ -38,8 +38,8 @@ export default class ClienteController {
     async atualizarCliente(request: Request): Promise<{ status: number; body: { message: string } }> {
         const { cpf } = request.params;
 
+        const validationData = updateClienteSchema.parse(request.body);
         try {
-            const validationData = updateClienteSchema.parse(request.body);
             const sucesso = await this.clienteService.atualizarCliente(cpf, validationData as ClienteUpdate);
             if (sucesso) {
                 return { status: 200, body: { message: 'Cliente atualizado com sucesso.' } };
